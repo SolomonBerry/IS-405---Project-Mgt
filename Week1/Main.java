@@ -3,7 +3,6 @@ import java.util.Scanner;
 import java.util.*;
 import java.io.File;  // Import the File class
 import java.io.FileNotFoundException;  // Import this class to handle errors
-import java.util.Scanner; // Import the Scanner class to read text files
 public class Main
 {   
 
@@ -12,7 +11,7 @@ public class Main
 
 public static void main(String args[])   
 {  
-//get the data from the names.txt file
+//get the data from the names.txt file and storing it in a list
 List<String> namesList = new ArrayList<>();
 try {
     File myObj = new File("C:/Users/saber/Documents/IS 405 - Project Mgt/Week1/names.txt");
@@ -29,14 +28,12 @@ try {
     
 
 
-// Randomizing list of names 
+// Randomizing list of names, then converting it into an array
 String arr[] = new String[namesList.size()];
+Collections.shuffle(namesList);
 namesList.toArray(arr);
-List<String> list = Arrays.asList(arr);
-Collections.shuffle(list);
-list.toArray(arr);
 
-//System.out.println(arr[0]);
+
 //Get number of students
 int numStudents = arr.length;
 
@@ -48,20 +45,22 @@ reader.close();
 
 //Getting the group size
 int groupSize = numStudents/totalGroups;
-int remainder = numStudents - (groupSize * totalGroups);
-//System.out.println(remainder);
-   
 
+//Gets the remainder, so that all students are assigned into groups
+int remainder = numStudents - (groupSize * totalGroups);
+   
+//Creating an array of arrays for the different groups
 String[][] NumArrays = new String[(totalGroups)][groupSize + 1];
 
-
+//This for loop creates a list for each group, and then converts that list into an array and adds it the array of groups. 
 int counter = 0;
 for (int i = 0; i < totalGroups; i++){
     
     List<String> newList = new ArrayList<>();
     int x = 0;
+    // If there are extra kids left over, I use the remainder to make sure that everyone is assigned to a group. 
+    // This leads to some groups occasionally having an extra person
     if (i < remainder){
-        //System.out.println("catch");
         while (x < (groupSize + 1)){
             newList.add(arr[counter]);
             
@@ -77,10 +76,10 @@ for (int i = 0; i < totalGroups; i++){
             x++;
         }
     }
-    //System.out.println(newList);
     newList.toArray(NumArrays[i]);  
 }
 
+// Print out the different groups
 int groupNum = 1;
 for (String[] i : NumArrays){
     System.out.println("Group Number " + groupNum);
@@ -94,6 +93,7 @@ for (String[] i : NumArrays){
         
     }
     groupNum ++;
+    System.out.println("");
 }
 
 }   
